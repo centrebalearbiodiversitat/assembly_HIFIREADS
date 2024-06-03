@@ -2,13 +2,19 @@
 
 ## Genome Size Estimation using KMC, kmc_tools, Genomescope2 and Smudgeplot
 ## place in a folder names "reads". 
+READS = $1
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <path_to_reads>"
+    exit 1
+fi
 
 mkdir -p genome_metrics
 cd genome_metrics
 ##step 1. kmer and genome size estimation using KMC, kmc_tools, genomescope and smudgeplot
 mkdir -p  kmc_temp #kmc temporary directory
 # kmc using 21-mers and 24 cores
-kmc -k21 -m24 ../reads/m64086e_bothruns_hifi_reads.fastq.gz kmc_result ./kmc_temp > kmc_output
+kmc -k21 -m24 $READS kmc_result ./kmc_temp > kmc_output
 
 mv kmc_result.* kmc_temp
 # To be able to apply GenomeScope2: kmc_tools that will produce a histogram of k-mers occurrences.
@@ -40,3 +46,5 @@ smudge_pairs kmc_out_L"$L"_U"$U" kmc_out_L"$L"_U"$U"_coverages.tsv kmc_out_L"$L"
 smudgeplot.py plot kmc_out_L"$L"_U"$U"_coverages.tsv
 
 mamba deactivate
+
+echo "Genome size estimation, ploidy estimation and analysis results are in the genome_metrics directory."
