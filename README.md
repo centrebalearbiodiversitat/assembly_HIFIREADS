@@ -1,8 +1,7 @@
 # assembly
 Pipeline used for Whole Genome Assembly
 
-Tools used
-Genome_metrics.sh
+Tools used in genome_metrics.sh
 
 - kmc, installed by apt: https://github.com/refresh-bio/KMC
 - GenomeScope2. Installed using mamba: https://github.com/tbenavi1/genomescope2.0
