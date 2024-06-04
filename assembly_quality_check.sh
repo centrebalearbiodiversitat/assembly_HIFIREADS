@@ -13,7 +13,7 @@ awk '/^S/{print ">"$2;print $3}' assembly_hic_prim.hic.p_ctg.gfa > asm_prim.hic.
 awk '/^S/{print ">"$2;print $3}' assembly_hic_prim.hic.a_ctg.gfa > asm_prim.hic.a_ctg.fasta
 cd ..
 
-## Step 3. Metrics using QUAST + Busco
+## Metrics using QUAST + Busco + gfastats
 
 # 3.1 BUSCO of contigs obtained from the different assemblers
 mkdir -p assembly_metrics/busco_out
