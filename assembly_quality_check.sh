@@ -1,12 +1,12 @@
 ##2 ASSEMBLY STEP AND ASSEMBLY QUALITY CHECK
-
+## usage ./assembly_quality_check.sh "HIFI_reads" "HIC_1_reads" "HIC_2_reads" "cpu"
 HIFI = ${1}
 HIC1 = ${2}
 HIC2 = ${3}
 THR = ${4}
 mkdir hifiasm_HiC
 cd hifiasm_HiC
-hifiasm -o assembly_hic_prim -t ${4}--h1 ${2} --h2 ${3} ${1} --primary
+hifiasm -o assembly_hic_prim -t ${THR} --h1 ${HIC1} --h2 ${HIC2} ${HIFI} --primary
 
 # get fasta files from hifiasm assemblies
 awk '/^S/{print ">"$2;print $3}' assembly_hic_prim.hic.p_ctg.gfa > asm_prim.hic.p_ctg.fasta
@@ -20,7 +20,7 @@ mkdir -p assembly_metrics/busco_out
 cd assembly_metrics
 
 #mamba activate busco
-busco -i ../asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropoda_odb10 -c ${4} -m geno
+busco -i ../asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropoda_odb10 -c ${THR} -m geno
 
 #mamba deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
@@ -52,8 +52,7 @@ mkdir -p quality_stats/quast
 
 mamba activate busco
 # Applying BUSCO to the first 3 steps output.
-busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c 36 -m geno
-#Results: C:93.1%[S:89.9%,D:3.2%],F:3.8%,M:3.1%,n:1013
+busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c ${THR} -m geno
 
 mamba deactivate
 
