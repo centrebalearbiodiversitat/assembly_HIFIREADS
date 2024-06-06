@@ -1,7 +1,7 @@
 # Pipeline used for Whole Genome Assembly
 Proposed pipeline for de novo assembly. This first version is prepared for using HIFI and HIC reads.
 
-# 1. Genome size,  heterozygosity and ploidy estimation (genome_metrics.sh)
+# 1. Genome size,  heterozygosity and ploidy estimation (reads_genome_evaluation.sh)
 Tools used:
 * NanoPlot, installed through git clone: https://github.com/wdecoster/NanoPlot
 * LongQC, installed through git clone: https://github.com/yfukasawa/LongQC
