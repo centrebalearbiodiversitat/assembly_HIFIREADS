@@ -3,6 +3,8 @@ Proposed pipeline for de novo assembly. This first version is prepared for using
 
 # 1. Genome size,  heterozygosity and ploidy estimation (genome_metrics.sh)
    Tools used:
+      - NanoPlot, installed through git clone: https://github.com/wdecoster/NanoPlot
+      - LongQC, installed through git clone: https://github.com/yfukasawa/LongQC
       - kmc, installed through apt: https://github.com/refresh-bio/KMC
       - GenomeScope2. Installed using mamba: https://github.com/tbenavi1/genomescope2.0
       - Smudgeplot. Installed using mamba and the same environment as genomescope2: https://github.com/KamilSJaron/smudgeplot?tab=readme-ov-file
