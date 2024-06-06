@@ -1,20 +1,28 @@
-! /bin/bash
+#! /bin/bash
 
+## Reads quality control using NanoPlot and LongQC 
 ## Genome Size Estimation using KMC, kmc_tools, Genomescope2 and Smudgeplot
-## place in a folder names "reads". 
-READS = $1
 
+HIFI_READS=$1
+THREADS=$2
 if [ -z "$1" ]; then
-    echo "Usage: $0 <path_to_reads>"
+    echo "Usage: $0 <path_to_hifi_reads>"
     exit 1
 fi
 
+# Quality Control
+mkdir -p reads_quality
+cd reads_quality
+NanoPlot -t ${THREADS} --fastq ${HIFI_READS} -o NanoPlot_hifi
+longQC.py --ncpu ${THREADS} -o LongQC_hifi -x pb-hifi ${HIFI_READS} 
+cd ..
+
+# Genome size assessment using KMC, KMC_tools, GenomeScope2 and SmudgePlot
 mkdir -p genome_metrics
 cd genome_metrics
-##step 1. kmer and genome size estimation using KMC, kmc_tools, genomescope and smudgeplot
 mkdir -p  kmc_temp #kmc temporary directory
 # kmc using 21-mers and 24 cores
-kmc -k21 -m24 $READS kmc_result ./kmc_temp > kmc_output
+kmc -k21 -m24 ${HIFI_READS} kmc_result ./kmc_temp > kmc_output
 
 mv kmc_result.* kmc_temp
 # To be able to apply GenomeScope2: kmc_tools that will produce a histogram of k-mers occurrences.
@@ -47,4 +55,5 @@ smudgeplot.py plot kmc_out_L"$L"_U"$U"_coverages.tsv
 
 mamba deactivate
 
-echo "Genome size estimation, ploidy estimation and analysis results are in the genome_metrics directory."
+echo "Genome size estimation, ploidy estimation and analysis results are in the genome_metrics directory, reads quality stats are placed in reads_quality folder"."
+
