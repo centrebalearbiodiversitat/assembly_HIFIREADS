@@ -32,4 +32,5 @@ Proposed pipeline for de novo assembly. This first version is prepared for using
   - LRBinner
 
 # 6. Manual curation (getting ready for PretextMap)
+
     
