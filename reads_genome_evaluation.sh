@@ -12,8 +12,7 @@ fi
 mkdir -p reads_quality
 NanoPlot -t ${THREADS} --fastq ${HIFI_READS} -o reads_quality/NanoPlot_hifi
 python3 /opt/LongQC/longQC.py sampleqc --ncpu ${THREADS} -o reads_quality/LongQC_hifi -x pb-hifi ${HIFI_READS} 
-echo "longqc error"
-cd ..
+
 
 # Genome size assessment using KMC, KMC_tools, GenomeScope2 and SmudgePlot
 mkdir -p genome_metrics
