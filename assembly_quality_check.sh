@@ -19,10 +19,11 @@ cd ..
 mkdir -p assembly_metrics/busco_out
 cd assembly_metrics
 
-#mamba activate busco
+source /opt/mamba/mambaforge/etc/profile.d/conda.sh
+conda activate busco
 busco -i ../asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropoda_odb10 -c ${THR} -m geno
 
-#mamba deactivate
+conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
 mkdir -p quast
 quast.py ../asm_prim.hic.p_ctg.fasta --large --est-ref-size 1180556766 -o quast
@@ -50,11 +51,11 @@ get_seqs -e dups.bed ${prim_asm}
 mkdir -p quality_stats/busco
 mkdir -p quality_stats/quast
 
-mamba activate busco
+conda activate busco
 # Applying BUSCO to the first 3 steps output.
 busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c ${THR} -m geno
 
-mamba deactivate
+conda deactivate
 
 quast.py hap.fa --large --est-ref-size 1180556766 -o quality_stats/quast
 
