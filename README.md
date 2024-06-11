@@ -19,8 +19,8 @@ Tools used:
     
 # 3. First decontamination (decontamination-1.sh)
 Tools used:
-* FCS
-* Whokaryote
+* FCS, https://github.com/ncbi/fcs
+* Whokaryote, https://github.com/LottePronk/whokaryote
       
 # 4. Scaffolding (scaffolding.sh)
 Tools used:
@@ -31,7 +31,7 @@ Tools used:
 
 # 5. Second decontamination (decontamination-2.sh)
 Tools used:
-* LRBinner
+* LRBinner, https://github.com/anuradhawick/LRBinner
 
 # 6. Manual curation (getting ready for PretextMap)
 
