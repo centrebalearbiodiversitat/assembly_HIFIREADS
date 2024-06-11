@@ -6,7 +6,7 @@ HIC2 = ${3}
 THR = ${4}
 mkdir hifiasm_HiC
 cd hifiasm_HiC
-hifiasm -o assembly_hic_prim -t ${THR} --h1 ${HIC1} --h2 ${HIC2} ${HIFI} --primary
+hifiasm -o assembly_hic_prim -t ${THR} --h1 ../${HIC1} --h2 ../${HIC2} ../${HIFI} --primary
 
 # get fasta files from hifiasm assemblies
 awk '/^S/{print ">"$2;print $3}' assembly_hic_prim.hic.p_ctg.gfa > asm_prim.hic.p_ctg.fasta
