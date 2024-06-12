@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 mkdir bwa_output
 cd bwa_output
