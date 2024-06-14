@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#Create an index from the YAHS output
+bowtie2-build yahs.out_scaffolds_final.fa yahs.out_scaffolds_final_bowtie
+# Align reads to reference genome
+bowtie2 -x yahs.out_scaffolds_final_bowtie -1 ../reads/Tscabra_allHiC_1.fastq.gz -2 ../reads/Tscabra_allHiC_2.fastq.gz -S aligned.sam
+# Convert SAM to BAM and sort
+samtools view -bS alignment.sam | samtools sort -o alignment_sorted.bam -
+# PretextMap needs an alignment .bam.
+# Obtain .pretext:
+samtools view -h aligment.sorted.bam | /opt/PretextMap/builddir/PretextMap -o map.pretext --sortby length --sortorder descend --mapq 10
+#Pretext coverage 
+# Index BAM file
+samtools index alignment_sorted.bam
+# Compute coverage
+bedtools genomecov -ibam alignment_sorted.bam -bg > coverage.bedgraph
+# Add coverage.graph to the Map
+cat gaps.bed | /opt/PretextGraph/bin/PretextGraph addGaps -i map.pretext -n "Gaps"
+cat coverage.bedgraph | PretextGraph -i map.pretext -n "coverageMap"
+#Open PretextView and the pretext.map
+Contraer
