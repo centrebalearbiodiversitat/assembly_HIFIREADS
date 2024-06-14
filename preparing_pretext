@@ -17,5 +17,6 @@ bedtools genomecov -ibam alignment_sorted.bam -bg > coverage.bedgraph
 # Add coverage.graph to the Map
 cat gaps.bed | /opt/PretextGraph/bin/PretextGraph addGaps -i map.pretext -n "Gaps"
 cat coverage.bedgraph | PretextGraph -i map.pretext -n "coverageMap"
+cat telomeres.bed | PretextGraph -i map.pretext  -n "Telomeres"
 #Open PretextView and the pretext.map
 Contraer
