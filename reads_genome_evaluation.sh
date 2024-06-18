@@ -1,4 +1,3 @@
-  GNU nano 6.2                                                                                                                                                               reads_genome_evaluation.sh                                                                                                                                                                        
 #! /bin/bash
 
 ## Reads quality control using NanoPlot and LongQC 
@@ -12,7 +11,7 @@ if [ -z "$1" ]; then
 fi
 
 # Quality Control
-mkdir -p reads_quality
+#mkdir -p reads_quality
 NanoPlot -t ${THREADS} --fastq ${HIFI_READS} -o reads_quality/NanoPlot_hifi
 python3 /opt/LongQC/longQC.py sampleqc --ncpu ${THREADS} -o reads_quality/LongQC_hifi -x pb-hifi ${HIFI_READS}
 
@@ -38,20 +37,17 @@ genomescope2 -i reads.histo -k 21 -p 2 -o genomescope_out
 
 # Use smudgeplot to check ploidy
 mkdir -p smudgeplot
-cp reads.histo smudgeplot/
-cp kmc_temp/kmc_result.* smudgeplot/
-
 cd smudgeplot
+#1 Activate environment where smudgeplot is installed (Genome_scope in our case)
 
+#2 Set the different L and U values to extract kmers in the coverage range from L to U using kmc_tools
 export PATH=$PATH:/opt/FASTK/:/opt/smudgeplot-sploidyplot/exec/
+FastK -T4 -k21 -t4 -M16 ../../../reads/m64086e_bothruns_hifi_reads.fasta -NFastK_table
+PloidyPlot -otethysbaena FastK_table
+smudgeplot.py plot -t Tethysbaena -o smudge tethysbaena_text.smu
 
-FastK -T4 -k21 -t4 -M16 ../../../reads/m64086e_bothruns_hifi_reads.fasta
-PloidyPlot m64086e_bothruns_hifi_reads.ktab
-smudgeplot.py plot -t Tethysbaena -o smudge m64086e_bothruns_hifi_reads_text.smu
-
-
-echo "Genome size estimation, ploidy estimation and analysis results are in the genome_metrics directory, reads quality stats are placed in reads_quality folder"."
+#mamba deactivate
 
 
-
+echo "Genome size estimation, ploidy estimation and analysis results are in the genome_metrics directory, reads quality stats are placed in reads_quality folder"
 
