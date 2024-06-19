@@ -7,7 +7,8 @@ Tools used:
 * LongQC, installed through git clone: https://github.com/yfukasawa/LongQC
 * kmc, installed through apt: https://github.com/refresh-bio/KMC
 * GenomeScope2. Installed using mamba: https://github.com/tbenavi1/genomescope2.0
-* Smudgeplot. Installed using mamba and the same environment as genomescope2: https://github.com/KamilSJaron/smudgeplot?tab=readme-ov-file
+* FastK installed through git clone: https://github.com/thegenemyers/FASTK
+* Smudgeplot. Installed through git clone: https://github.com/KamilSJaron/smudgeplot/tree/sploidyplot
       
 # 2. Assembly quality check and purge duplicates (assembly_quality_check.sh) 
 Tools used:
