@@ -31,6 +31,7 @@ blobtools create --fasta Bin-8.fasta  --meta meta.yaml --taxid 203899 --taxdump 
 # Step 2. Add blast hits
 blobtools add  --hits blast.out --taxrule bestsumorder --taxdump . Tethysbaena_scabra_assembly
 # Step 3. Add coverage
+# samtools index -c alignment_sorted.bam ## looks for a .bam.csi
 blobtools add --cov alignment_sorted.bam Tethysbaena_scabra_assembly
 # Step 4. Add busco scores
 blobtools add --busco full_table.tsv Tethysbaena_scabra_assembly
