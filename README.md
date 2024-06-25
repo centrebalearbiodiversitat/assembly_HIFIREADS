@@ -32,8 +32,8 @@ Tools used:
 
 # 5. Second decontamination (decontamination-2.sh)
 Tools used:
-* LRBinner, https://github.com/anuradhawick/LRBinner
-
+* Blobtoolkit
+  
 # 6. Manual curation (getting ready for PretextMap)
 
     
