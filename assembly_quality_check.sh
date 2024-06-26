@@ -1,9 +1,12 @@
 ##2 ASSEMBLY STEP AND ASSEMBLY QUALITY CHECK
-## usage ./assembly_quality_check.sh "HIFI_reads" "HIC_1_reads" "HIC_2_reads" "cpu"
-HIFI = ${1}
-HIC1 = ${2}
-HIC2 = ${3}
-THR = ${4}
+## usage ./assembly_quality_check.sh "HIFI_reads" "HIC_1_reads" "HIC_2_reads" "cpu" "assembly_name"
+
+HIFI_READS=$1
+HIC_1=$2
+HIC_2=$3
+THREADS=$4
+ASM_NAME=$5
+
 mkdir hifiasm_HiC
 cd hifiasm_HiC
 hifiasm -o assembly_hic_prim -t ${THR} --h1 ../${HIC1} --h2 ../${HIC2} ../${HIFI} --primary
