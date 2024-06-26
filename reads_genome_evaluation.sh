@@ -68,3 +68,4 @@ smudgeplot.py plot -t ${ASM_NAME} -o smudge ${ASM_NAME}_text.smu
 
 
 echo "Step 1 - DONE"
+echo "Genome size estimation, ploidy estimation and analysis results are in the genome_metrics directory, reads quality stats are placed in reads_quality folder"
