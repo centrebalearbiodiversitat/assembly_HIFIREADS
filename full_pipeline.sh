@@ -88,7 +88,7 @@ cd assembly_metrics
 
 source /opt/mamba/mambaforge/etc/profile.d/conda.sh
 conda activate busco
-busco -i ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropoda_odb10 -c ${THR} -m geno
+busco -i ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropoda_odb10 -c ${THREADS} -m geno
 
 conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
