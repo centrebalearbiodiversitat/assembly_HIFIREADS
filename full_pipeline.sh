@@ -6,7 +6,7 @@
 #second input. HIC_1.fq
 #third input. HIC_2.fq
 #fourth input must be threads used
-#third input assembly must be "assembly name"
+#third input assembly must be "assembly name being for example "Raja_radula" "
 
 echo "Starting pipeline"
 ## 1. reads_genome_evaluation
