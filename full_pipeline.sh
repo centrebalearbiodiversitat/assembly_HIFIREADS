@@ -159,6 +159,7 @@ echo "Step 4 -- Scaffolding using YAHS"
 mkdir bwa_output
 cd bwa_output
 
+file=$(cat decontamination/whokaryote_ouput)
 samtools faidx decontamination/whokaryote_output/
 ## checking quality with fastqc for HI-C reads
 fastqc ${HIC_1} ${HIC_2}
@@ -169,8 +170,8 @@ HIC2_basename=$(basename "${HIC_2%.*}")
 HIC1_output="${HIC1_basename}.filtered.bam"
 HIC2_output="${HIC2_basename}.filtered.bam"
 
-bwa mem -t ${THREADS} ${purged} ${HIC1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
-bwa mem -t ${THREADS} ${purged} ${HIC2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
+bwa mem -t ${THREADS} ${purged} ${HIC_1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
+bwa mem -t ${THREADS} ${purged} ${HIC_2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
 
 #Step2. Retain only the portion of the chimeric read that maps in the 5'-orientation in relation to its read orientation.
 
