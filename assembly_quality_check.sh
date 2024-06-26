@@ -9,11 +9,11 @@ ASM_NAME=$5
 
 mkdir hifiasm_HiC
 cd hifiasm_HiC
-hifiasm -o assembly_hic_prim -t ${THR} --h1 ../${HIC1} --h2 ../${HIC2} ../${HIFI} --primary
+hifiasm -o ${ASM_NAME}_assembly_hic_prim -t ${THREADS} --h1 ../${HIC_1} --h2 ../${HIC_2} ../${HIFI_READS} --primary
 
 # get fasta files from hifiasm assemblies
-awk '/^S/{print ">"$2;print $3}' assembly_hic_prim.hic.p_ctg.gfa > asm_prim.hic.p_ctg.fasta
-awk '/^S/{print ">"$2;print $3}' assembly_hic_prim.hic.a_ctg.gfa > asm_prim.hic.a_ctg.fasta
+awk '/^S/{print ">"$2;print $3}' ${ASM_NAME}_assembly_hic_prim.hic.p_ctg.gfa > ${ASM_NAME}_asm_prim.hic.p_ctg.fasta
+awk '/^S/{print ">"$2;print $3}' ${ASM_NAME}_assembly_hic_prim.hic.a_ctg.gfa > ${ASM_NAME}_asm_prim.hic.a_ctg.fasta
 cd ..
 
 ## Metrics using QUAST + Busco + gfastats
