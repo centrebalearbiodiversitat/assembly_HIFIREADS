@@ -65,4 +65,6 @@ conda deactivate
 
 quast.py hap.fa --large --est-ref-size 1180556766 -o quality_stats/quast
 
+echo "Step 2 has been performed. Assembly and its metrics before and after purging the duplicates aswell, check folders assembly_metrics/quality_stats and purgedups/quality_stats"
+
 
