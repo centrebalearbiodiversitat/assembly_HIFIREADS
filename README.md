@@ -18,7 +18,7 @@ Tools used:
 * gfastats, installed through git clone: https://github.com/vgl-hub/gfastats
 * purge_dups, installed through git clone: https://github.com/dfguan/purge_dups
     
-# 3. First decontamination (decontamination-1.sh)
+# 3. First decontamination (pre_scf_decon.sh)
 Tools used:
 * FCS, https://github.com/ncbi/fcs
 * Whokaryote, https://github.com/LottePronk/whokaryote
