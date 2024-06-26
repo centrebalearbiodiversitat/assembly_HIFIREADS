@@ -6,7 +6,7 @@
 #second input. HIC_1.fq
 #third input. HIC_2.fq
 #fourth input must be threads used
-#third input assembly must be "assembly name"
+#fifth input assembly must be "species_name""
 
 echo "Starting pipeline"
 ## 1. reads_genome_evaluation
@@ -27,7 +27,7 @@ fi
 mkdir -p ${ASM_NAME}
 cd ${ASM_NAME}
 # Quality Control
-#mkdir -p reads_quality
+mkdir -p reads_quality
 NanoPlot -t ${THREADS} --fastq ../${HIFI_READS} -o reads_quality/NanoPlot_hifi
 python3 /opt/LongQC/longQC.py sampleqc --ncpu ${THREADS} -o reads_quality/LongQC_hifi -x pb-hifi ../${HIFI_READS}
 
