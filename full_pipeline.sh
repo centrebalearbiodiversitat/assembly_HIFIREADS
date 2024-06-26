@@ -128,7 +128,7 @@ mkdir -p quality_stats/quast
 
 conda activate busco
 # Applying BUSCO to the first 3 steps output.
-busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c ${THREADS} -m geno
+busco -i purged.fa -o quality_stats/busco --lineage ${lineage} -c ${THREADS} -m geno
 
 conda deactivate
 
