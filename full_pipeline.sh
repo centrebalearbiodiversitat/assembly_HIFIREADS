@@ -159,8 +159,8 @@ echo "Step 4 -- Scaffolding using YAHS"
 mkdir bwa_output
 cd bwa_output
 
-file=$(cat decontamination/whokaryote_ouput)
-samtools faidx decontamination/whokaryote_output/
+file=$(cat decontamination/whokaryote_ouput/eukaryotes.fa)
+samtools faidx $file
 ## checking quality with fastqc for HI-C reads
 fastqc ${HIC_1} ${HIC_2}
 # use BWA-MEM to align the Hi-C paired-end reads to reference sequences
@@ -170,8 +170,8 @@ HIC2_basename=$(basename "${HIC_2%.*}")
 HIC1_output="${HIC1_basename}.filtered.bam"
 HIC2_output="${HIC2_basename}.filtered.bam"
 
-bwa mem -t ${THREADS} ${purged} ${HIC_1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
-bwa mem -t ${THREADS} ${purged} ${HIC_2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
+bwa mem -t ${THREADS} ${file} ${HIC_1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
+bwa mem -t ${THREADS} ${file} ${HIC_2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
 
 #Step2. Retain only the portion of the chimeric read that maps in the 5'-orientation in relation to its read orientation.
 
@@ -180,10 +180,38 @@ samtools view -h "${HIC2_basename}.bam" | perl /opt/scripts/filter_five_end.pl |
 
 # Now we pair the filtered single-end Hi-C using "two_read_bam_combiner.pl"
 
-REF='/home/bioinfo/tethysbaena_scabra_assembly/bwa_output/purged.fa'
+REF='${MAIN_DIR}/purgedups/purged.fa'
 FAIDX='$REF.fai'
 perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  samtools 10 | samtools view -bS -t $FAIDX | samtools sort -@ ${THREADS} -o HiC1_HiC2_combined.bam
 
-yahs purged.hic.asm HiC1_HiC2_combined.bam
+YAHS_OUTPUT=$(yahs purged.hic.asm HiC1_HiC2_combined.bam)
+echo "Step 4 -- DONE"
+
+echo "Step 5 -- Preparing Blobtoolkit"
+                                                                                                         
+# First,   we need a  alignment.bam, a blast_out and the taxdump database!
+# Alignment:
+#build index of the genome
+bwa index $YAHS_OUTPUT
+bwa mem -5SPM -T30 -t24 $YAHS_OUTPUT ${HIC_1} ${HIC_2} | samtools view -Shb -@ 6 > alignment.bam
+samtools sort -@ 12 -o alignment_sorted.bam alignment.bam
+samtools index alignment_sorted.bam
+# blastn:
+blastn -db nt -query $outfile_fasta -outfmt "6 qseqid staxids bitscore std" -max_target_seqs 1 -max_hsps 1 -evalue 1e-25 -num_threads 64 -out blast.out
+# Tambien  se necesita descargar la base de datos taxdump:
+#wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz
+#tar -xzvf taxdump.tar.gz
+# RUN BLOBTOOLKIT:
+# Step 1. Create blobtools database:
+blobtools create --fasta Bin-8.fasta  --meta meta.yaml --taxid 203899 --taxdump . Tethysbaena_scabra_assembly
+# Step 2. Add blast hits
+blobtools add  --hits blast.out --taxrule bestsumorder --taxdump . Tethysbaena_scabra_assembly
+# Step 3. Add coverage
+# samtools index -c alignment_sorted.bam ## looks for a .bam.csi
+blobtools add --cov alignment_sorted.bam Tethysbaena_scabra_assembly
+# Step 4. Add busco scores
+blobtools add --busco full_table.tsv Tethysbaena_scabra_assembly
+# Step 5. Open dataset in Blobtoolkit viewer
+blobtools host `pwd`
 
 
