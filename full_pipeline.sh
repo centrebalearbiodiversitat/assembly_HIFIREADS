@@ -139,15 +139,50 @@ echo "Step 3 -- Decontamination before scaffolding"
 
 cd ${MAIN_DIR}
 mkdir -p decontamination/fcs_output
-mkdir -p decontamination/whokaryote
+mkdir -p decontamination/whokaryote_output
 
 ## obtain tax_id 
+tax_id=$(python3 get_taxon_id.py "${ASM_NAME}")
 
 python3 /opt/fcs/fcs.py screen genome --fasta purgedups/purged.fa --out-dir ./fcs_output/ --gx-db /opt/fcs/gxdb/ --tax-id ${tax_id}
 # Delete contaminants:
 cat purged.fa | python3 /opt/fcs/fcs.py clean genome --action-report ./fcs_output/purged.${tax_id}.fcs_gx_report.txt --output ${ASM_NAME}_FCS_clean.fasta --contam-fasta-out ${ASM_NAME}_FCS_contam.fasta
 
 # Whokaryote
-whokaryote.py --contigs clean.fasta --outdir whokaryote_output --f --minsize 10000 --model T
+whokaryote.py --contigs ${ASM_NAME}_FCS_clean.fasta --outdir whokaryote_output --f --minsize 10000 --model T
 
+cd ${MAIN_DIR}
 echo "Step 3 -- Done. Decontamination prior scaffolding has been performed"
+
+echo "Step 4 -- Scaffolding using YAHS"
+
+mkdir bwa_output
+cd bwa_output
+
+samtools faidx decontamination/whokaryote_output/
+## checking quality with fastqc for HI-C reads
+fastqc ${HIC1} ${HIC2}
+# use BWA-MEM to align the Hi-C paired-end reads to reference sequences
+# Step1. HiC reads from FASTQC to BAM
+HIC1_basename=$(basename "${HIC1%.*}")
+HIC2_basename=$(basename "${HIC2%.*}")
+HIC1_output="${HIC1_basename}.filtered.bam"
+HIC2_output="${HIC2_basename}.filtered.bam"
+
+bwa mem -t ${THREADS} ${purged} ${HIC1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
+bwa mem -t ${THREADS} ${purged} ${HIC2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
+
+#Step2. Retain only the portion of the chimeric read that maps in the 5'-orientation in relation to its read orientation.
+
+samtools view -h "${HIC1_basename}.bam" | perl /opt/scripts/filter_five_end.pl | samtools view -Sb > "${HIC1_output}"
+samtools view -h "${HIC2_basename}.bam" | perl /opt/scripts/filter_five_end.pl | samtools view -Sb > "${HIC2_output}"
+
+# Now we pair the filtered single-end Hi-C using "two_read_bam_combiner.pl"
+
+REF='/home/bioinfo/tethysbaena_scabra_assembly/bwa_output/purged.fa'
+FAIDX='$REF.fai'
+perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  samtools 10 | samtools view -bS -t $FAIDX | samtools sort -@ ${THREADS} -o HiC1_HiC2_combined.bam
+
+yahs purged.hic.asm HiC1_HiC2_combined.bam
+
+
