@@ -32,7 +32,7 @@ lineage=$(ls busco_out | grep 'short_summary.specific.' | grep '.txt'| cut -d'.'
 conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
 mkdir -p quast
-quast.py ../asm_prim.hic.p_ctg.fasta --large --est-ref-size 1180556766 -o quast
+quast.py ../asm_prim.hic.p_ctg.fasta --large --est-ref-size $genome_size -o quast
 
 /opt/gfastats/build/bin/gfastats asm_prim.hic.p_ctg.fasta > asm_prim.hic.p_ctg.gfastats
 
@@ -59,11 +59,11 @@ mkdir -p quality_stats/quast
 
 conda activate busco
 # Applying BUSCO to the first 3 steps output.
-busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c ${THREADS} -m geno
+busco -i purged.fa -o quality_stats/busco --lineage $lineage -c ${THREADS} -m geno
 
 conda deactivate
 
-quast.py hap.fa --large --est-ref-size 1180556766 -o quality_stats/quast
+quast.py hap.fa --large --est-ref-size $genome_size -o quality_stats/quast
 
 echo "Step 2 has been performed. Assembly and its metrics before and after purging the duplicates aswell, check folders assembly_metrics/quality_stats and purgedups/quality_stats"
 
