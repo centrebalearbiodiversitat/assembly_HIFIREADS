@@ -58,7 +58,7 @@ cd smudgeplot
 
 #2 Set the different L and U values to extract kmers in the coverage range from L to U using kmc_tools
 export PATH=$PATH:/opt/FASTK/:/opt/smudgeplot-sploidyplot/exec/
-FastK -T4 -k21 -t4 -M16 ../../${HIFI_READS} -NFastK_table
+FastK -T4 -k21 -t4 -M16 ../../../${HIFI_READS} -NFastK_table
 PloidyPlot -o${ASM_NAME} FastK_table
 smudgeplot.py plot -t ${ASM_NAME} -o smudge ${ASM_NAME}_text.smu
 
