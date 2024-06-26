@@ -1,7 +1,7 @@
 # Pipeline used for Whole Genome Assembly
 Proposed pipeline for de novo assembly. This first version is prepared for using HIFI and HIC reads.
 
-# 1. Genome size,  heterozygosity and ploidy estimation (reads_genome_evaluation.sh)
+# 1. Genome size,  heterozygosity and ploidy estimation (reads_assess.sh)
 Tools used:
 * NanoPlot, installed through git clone: https://github.com/wdecoster/NanoPlot
 * LongQC, installed through git clone: https://github.com/yfukasawa/LongQC
@@ -10,7 +10,7 @@ Tools used:
 * FastK installed through git clone: https://github.com/thegenemyers/FASTK
 * Smudgeplot. Installed through git clone: https://github.com/KamilSJaron/smudgeplot/tree/sploidyplot
       
-# 2. Assembly quality check and purge duplicates (assembly_quality_check.sh) 
+# 2. Assembly quality check and purge duplicates (asm_assess.sh) 
 Tools used:
 * hifiasm, installed through git clone:  https://github.com/chhylp123/hifiasm
 * BUSCO, installed via mamba.  mamba install bioconda::busco
