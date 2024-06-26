@@ -94,9 +94,7 @@ conda activate busco
 busco -i ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --auto-lineage-euk -c ${THREADS} -m geno
 
 ## obtain the best lineage for further steps
-awk '/The lineage dataset is:/ {print $5}' short_summary.specific.arthropoda_odb10.busco_filtered.txt > lineage.txt
-lineage=$(cat lineage.txt)
-
+lineage=$(ls busco_out | grep 'short_summary.specific.' | grep '.txt'| cut -d'.' -f3,3)
 
 conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
