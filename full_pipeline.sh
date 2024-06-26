@@ -49,6 +49,9 @@ conda activate genome_scope
 
 # input must be the reads.histo output from kmc_tools, -k is kmer length, -p is ploidy
 genomescope2 -i reads.histo -k 21 -p 2 -o genomescope_out
+awk '/Genome Haploid Length/ { gsub(",", "", $4); gsub(",", "", $6); print ($4 + $6) / 2 }' genomescope_out/summary.txt > genomescope_out/estimation_length.txt
+
+genome_size=$(cat estimation_length.txt)
 
 # Use smudgeplot to check ploidy
 mkdir -p smudgeplot
@@ -93,7 +96,7 @@ busco -i ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropo
 conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
 mkdir -p quast
-quast.py ../asm_prim.hic.p_ctg.fasta --large --est-ref-size 1180556766 -o quast
+quast.py ../asm_prim.hic.p_ctg.fasta --large --est-ref-size ${genome_size} -o quast
 
 /opt/gfastats/build/bin/gfastats asm_prim.hic.p_ctg.fasta > asm_prim.hic.p_ctg.gfastats
 
@@ -120,8 +123,8 @@ mkdir -p quality_stats/quast
 
 conda activate busco
 # Applying BUSCO to the first 3 steps output.
-busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c ${THR} -m geno
+busco -i purged.fa -o quality_stats/busco --lineage arthropoda_odb10 -c ${THREADS} -m geno
 
 conda deactivate
 
-quast.py hap.fa --large --est-ref-size 1180556766 -o quality_stats/quast
+quast.py hap.fa --large --est-ref-size ${genome_size} -o quality_stats/quast
