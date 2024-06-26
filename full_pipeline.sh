@@ -161,11 +161,11 @@ cd bwa_output
 
 samtools faidx decontamination/whokaryote_output/
 ## checking quality with fastqc for HI-C reads
-fastqc ${HIC1} ${HIC2}
+fastqc ${HIC_1} ${HIC_2}
 # use BWA-MEM to align the Hi-C paired-end reads to reference sequences
 # Step1. HiC reads from FASTQC to BAM
-HIC1_basename=$(basename "${HIC1%.*}")
-HIC2_basename=$(basename "${HIC2%.*}")
+HIC1_basename=$(basename "${HIC_1%.*}")
+HIC2_basename=$(basename "${HIC_2%.*}")
 HIC1_output="${HIC1_basename}.filtered.bam"
 HIC2_output="${HIC2_basename}.filtered.bam"
 
