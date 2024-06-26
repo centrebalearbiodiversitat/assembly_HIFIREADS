@@ -1,6 +1,6 @@
 #! /bin/bash
 ## Pipeline created by CBB to assemble WHOLE GENOME with HiFi PACBIO long-reads and HiC.
-
+## it would be necessary to change the lineage for BUSCO and the genome size after using genome_scope.
 # example full_pipeline.sh /reads/hifi.fastq hic_1.fq hic_2.fq 30 species
 #first input must be HiFi reads
 #second input. HIC_1.fq
