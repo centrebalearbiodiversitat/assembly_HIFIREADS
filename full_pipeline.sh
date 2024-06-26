@@ -133,4 +133,4 @@ quast.py purged.fa --large --est-ref-size ${genome_size} -o quality_stats/quast
 
 /opt/gfastats/build/bin/gfastats purged.fa > ${ASM_NAME}_purged.gfastats
 
-
+echo "Step 2 -- Done. Assembly, purge duplicates and quality assessment prior and after the following steps have been performed."
