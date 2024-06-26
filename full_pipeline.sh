@@ -49,9 +49,8 @@ conda activate genome_scope
 
 # input must be the reads.histo output from kmc_tools, -k is kmer length, -p is ploidy
 genomescope2 -i reads.histo -k 21 -p 2 -o genomescope_out
-awk '/Genome Haploid Length/ { gsub(",", "", $4); gsub(",", "", $6); print ($4 + $6) / 2 }' genomescope_out/summary.txt > genomescope_out/estimation_length.txt
 
-genome_size=$(cat estimation_length.txt)
+genome_size=$(awk '/Genome Haploid Length/ { gsub(",", "", $4); gsub(",", "", $6); print ($4 + $6) / 2 }' genomescope_out/summary.txt)
 
 # Use smudgeplot to check ploidy
 mkdir -p smudgeplot
@@ -72,7 +71,6 @@ echo "Genome size estimation, ploidy estimation and analysis results are in the 
 
 echo "Starting step 2 - assembly"
 ##2 ASSEMBLY STEP AND ASSEMBLY QUALITY CHECK
-## usage ./assembly_quality_check.sh "HIFI_reads" "HIC_1_reads" "HIC_2_reads" "cpu"
 
 mkdir hifiasm_HiC
 cd hifiasm_HiC
