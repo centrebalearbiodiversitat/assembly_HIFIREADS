@@ -96,9 +96,9 @@ busco -i ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --lineage arthropo
 conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
 mkdir -p quast
-quast.py ../asm_prim.hic.p_ctg.fasta --large --est-ref-size ${genome_size} -o quast
+quast.py ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta --large --est-ref-size ${genome_size} -o quast
 
-/opt/gfastats/build/bin/gfastats asm_prim.hic.p_ctg.fasta > asm_prim.hic.p_ctg.gfastats
+/opt/gfastats/build/bin/gfastats ${ASM_NAME}_asm_prim.hic.p_ctg.fasta > ${ASM_NAME}_asm_prim.hic.p_ctg.gfastats
 
 cd ..
 
@@ -106,8 +106,8 @@ cd ..
 
 mkdir purgedups
 cd purgedups
-prim_asm='../hifiasm_HiC/asm_prim.hic.p_ctg.fasta'
-sec_asm='../hifiasm_HiC/asm_prim.hic.a_ctg.fasta'
+prim_asm='../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta'
+sec_asm='../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.a_ctg.fasta'
 # step1. split an assembly and do a self-self alignment.
 split_fa ${prim_asm} > ${prim_asm}.split
 minimap2 -xmap-hifi -DP ${prim_asm}.split ${prim_asm}.split | gzip -c > ${prim_asm}.split.self.paf.gz
