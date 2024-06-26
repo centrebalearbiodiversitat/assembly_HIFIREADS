@@ -9,7 +9,7 @@
 #fifth input assembly must be "species_name""
 
 echo "Starting pipeline"
-## 1. reads_genome_evaluation
+## Step 1. reads assess. Reads and genome assessment
 echo "Starting step 1. Reads quality control, genome size and ploidy estimation"
 ## Reads quality control using NanoPlot and LongQC 
 ## Genome Size Estimation using KMC, kmc_tools, FastK, Genomescope2 and Smudgeplot
