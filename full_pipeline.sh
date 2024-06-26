@@ -26,6 +26,7 @@ fi
 
 mkdir -p ${ASM_NAME}
 cd ${ASM_NAME}
+MAIN_DIR=$(pwd)
 # Quality Control
 #mkdir -p reads_quality
 NanoPlot -t ${THREADS} --fastq ../${HIFI_READS} -o reads_quality/NanoPlot_hifi
@@ -119,13 +120,17 @@ purge_dups -2 -T cutoffs -c PB.base.cov ${prim_asm}.split.self.paf.gz > dups.bed
 # step3. get purged primary and haplotig sequences from draft assembly
 get_seqs -e dups.bed ${prim_asm}
 
-mkdir -p quality_stats/busco
+mkdir -p quality_stats/busco_out
 mkdir -p quality_stats/quast
 
 conda activate busco
 # Applying BUSCO to the first 3 steps output.
-busco -i purged.fa -o quality_stats/busco --lineage ${lineage} -c ${THREADS} -m geno
+busco -i purged.fa -o quality_stats/busco_out --lineage ${lineage} -c ${THREADS} -m geno
 
 conda deactivate
 
-quast.py hap.fa --large --est-ref-size ${genome_size} -o quality_stats/quast
+quast.py purged.fa --large --est-ref-size ${genome_size} -o quality_stats/quast
+
+/opt/gfastats/build/bin/gfastats purged.fa > ${ASM_NAME}_purged.gfastats
+
+
