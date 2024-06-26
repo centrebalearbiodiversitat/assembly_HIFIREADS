@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 purged=$1
 HIC1=$2
