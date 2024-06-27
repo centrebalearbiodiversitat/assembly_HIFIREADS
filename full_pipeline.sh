@@ -57,7 +57,7 @@ genome_size=$(awk '/Genome Haploid Length/ { gsub(",", "", $4); gsub(",", "", $6
 mkdir -p smudgeplot
 cd smudgeplot
 export PATH=$PATH:/opt/FASTK/:/opt/smudgeplot-sploidyplot/exec/
-FastK -T4 -k21 -t4 -M16 ../../${HIFI_READS} -NFastK_table
+FastK -T4 -k21 -t4 -M16 ../../../${HIFI_READS} -NFastK_table
 PloidyPlot -o${ASM_NAME} FastK_table
 smudgeplot.py plot -t ${ASM_NAME} -o smudge ${ASM_NAME}_text.smu
 
