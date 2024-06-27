@@ -87,7 +87,7 @@ cd assembly_metrics
 
 source /opt/mamba/mambaforge/etc/profile.d/conda.sh
 conda activate busco
-busco -i ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --auto-lineage-euk -c ${THREADS} -m geno
+busco -i ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --auto-lineage-euk -c ${THREADS} -m geno
 
 ## obtain the best lineage for further steps
 lineage=$(ls busco_out | grep 'short_summary.specific.' | grep '.txt'| cut -d'.' -f3,3)
@@ -95,9 +95,9 @@ lineage=$(ls busco_out | grep 'short_summary.specific.' | grep '.txt'| cut -d'.'
 conda deactivate
 # 3.2 QUAST metrics of the purge dups 3rd step.
 mkdir -p quast
-quast.py ../${ASM_NAME}_asm_prim.hic.p_ctg.fasta --large --est-ref-size ${genome_size} -o quast
+quast.py ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta --large --est-ref-size ${genome_size} -o quast
 
-/opt/gfastats/build/bin/gfastats ${ASM_NAME}_asm_prim.hic.p_ctg.fasta > ${ASM_NAME}_asm_prim.hic.p_ctg.gfastats
+/opt/gfastats/build/bin/gfastats ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta > ${ASM_NAME}_asm_prim.hic.p_ctg.gfastats
 
 cd ..
 
