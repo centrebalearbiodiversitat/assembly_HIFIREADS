@@ -192,6 +192,7 @@ echo "Step 5 -- Preparing Blobtoolkit"
 bwa index $YAHS_OUTPUT
 bwa mem -5SPM -T30 -t24 $YAHS_OUTPUT ${HIC_1} ${HIC_2} | samtools view -Shb -@ 6 > alignment.bam
 samtools sort -@ 12 -o alignment_sorted.bam alignment.bam
+samtools flagstat alignment_sorted.bam > alignment_sorted.bam.flagstats
 samtools index alignment_sorted.bam
 # blastn:
 blastn -db nt -query $outfile_fasta -outfmt "6 qseqid staxids bitscore std" -max_target_seqs 1 -max_hsps 1 -evalue 1e-25 -num_threads 64 -out blast.out
