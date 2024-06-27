@@ -54,9 +54,7 @@ genome_size=$(awk '/Genome Haploid Length/ { gsub(",", "", $4); gsub(",", "", $6
 # Use smudgeplot to check ploidy
 mkdir -p smudgeplot
 cd smudgeplot
-#1 Activate environment where smudgeplot is installed (Genome_scope in our case)
 
-#2 Set the different L and U values to extract kmers in the coverage range from L to U using kmc_tools
 export PATH=$PATH:/opt/FASTK/:/opt/smudgeplot-sploidyplot/exec/
 FastK -T${THREADS}-k21 -t4 -M16 ../../../${HIFI_READS} -NFastK_table
 PloidyPlot -o${ASM_NAME} FastK_table
