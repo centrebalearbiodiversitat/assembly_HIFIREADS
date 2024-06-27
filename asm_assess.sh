@@ -43,8 +43,9 @@ cd ..
 
 mkdir purgedups
 cd purgedups
-prim_asm='../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta'
-sec_asm='../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.a_ctg.fasta'
+
+cp ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta .
+prim_asm=${ASM_NAME}_asm_prim.hic.p_ctg.fasta
 # step1. split an assembly and do a self-self alignment.
 split_fa ${prim_asm} > ${prim_asm}.split
 minimap2 -xmap-hifi -DP ${prim_asm}.split ${prim_asm}.split | gzip -c > ${prim_asm}.split.self.paf.gz
