@@ -141,13 +141,15 @@ mkdir -p decontamination/whokaryote_output
 ## obtain tax_id 
 tax_id=$(python3 get_taxon_id.py "${ASM_NAME}")
 
-python3 /opt/fcs/fcs.py screen genome --fasta purgedups/purged.fa --out-dir ./fcs_output/ --gx-db /opt/fcs/gxdb/ --tax-id ${tax_id}
+python3 /opt/fcs/fcs.py screen genome --fasta purgedups/purged.fa --out-dir decontamination/fcs_output/ --gx-db /opt/fcs/gxdb/ --tax-id ${tax_id}
 # Delete contaminants:
-cat purged.fa | python3 /opt/fcs/fcs.py clean genome --action-report ./fcs_output/purged.${tax_id}.fcs_gx_report.txt --output ${ASM_NAME}_FCS_clean.fasta --contam-fasta-out ${ASM_NAME}_FCS_contam.fasta
+cat purgedups/purged.fa | python3 /opt/fcs/fcs.py clean genome --action-report decontamination/fcs_output/purged.${tax_id}.fcs_gx_report.txt --output /decontamination/fcs_output/${ASM_NAME}_FCS_clean.fasta --contam-fasta-out decontamination/fcs_output/${ASM_NAME}_FCS_contam.fasta
 
+source /opt/mamba/mambaforge/etc/profile.d/conda.sh
+mamba activate whykaryote
 # Whokaryote
-whokaryote.py --contigs ${ASM_NAME}_FCS_clean.fasta --outdir whokaryote_output --f --minsize 10000 --model T
-
+whokaryote.py --contigs decontamination/whokaryote_output/${ASM_NAME}_FCS_clean.fasta --outdir decontamination/whokaryote_output --f --minsize 10000 --model T
+mamba deactivate
 cd ${MAIN_DIR}
 echo "Step 3 -- Done. Decontamination prior scaffolding has been performed"
 
