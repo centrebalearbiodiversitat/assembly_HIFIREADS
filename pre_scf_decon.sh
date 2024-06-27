@@ -1,6 +1,6 @@
 #!/bin/bash
 # Use ./decontamination SPECIES_NAME
-
+echo "Step 3 -- Decontamination before scaffolding"
 ASM_NAME=$1
 MAIN_DIR=${ASM_NAME}
 cd ${MAIN_DIR}
