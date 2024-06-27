@@ -13,9 +13,10 @@ tax_id=$(python3 get_taxon_id.py "${ASM_NAME}")
 python3 /opt/fcs/fcs.py screen genome --fasta purgedups/purged.fa --out-dir ./fcs_output/ --gx-db /opt/fcs/gxdb/ --tax-id ${tax_id}
 # Delete contaminants:
 cat purged.fa | python3 /opt/fcs/fcs.py clean genome --action-report ./fcs_output/purged.${tax_id}.fcs_gx_report.txt --output ${ASM_NAME}_FCS_clean.fasta --contam-fasta-out ${ASM_NAME}_FCS_contam.fasta
-
+source init bash
+conda activate whokaryote
 # Whokaryote
 whokaryote.py --contigs ${ASM_NAME}_FCS_clean.fasta --outdir whokaryote_output --f --minsize 10000 --model T
-
+conda deactivate
 cd ${MAIN_DIR}
 echo "Step 3 -- Done. Decontamination prior scaffolding has been performed"
