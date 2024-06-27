@@ -61,7 +61,7 @@ FastK -T4 -k21 -t4 -M16 ../../../${HIFI_READS} -NFastK_table
 PloidyPlot -o${ASM_NAME} FastK_table
 smudgeplot.py plot -t ${ASM_NAME} -o smudge ${ASM_NAME}_text.smu
 
-#mamba deactivate
+mamba deactivate
 
 
 echo "Step 1 - DONE"
