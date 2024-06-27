@@ -1,6 +1,6 @@
 ##2 ASSEMBLY STEP AND ASSEMBLY QUALITY CHECK
 ## usage ./assembly_quality_check.sh "HIFI_reads" "HIC_1_reads" "HIC_2_reads" "cpu" "assembly_name"
-
+## check the number of expected haplotypes
 HIFI_READS=$1
 HIC_1=$2
 HIC_2=$3
@@ -9,7 +9,7 @@ ASM_NAME=$5
 
 mkdir hifiasm_HiC
 cd hifiasm_HiC
-hifiasm -o ${ASM_NAME}_assembly_hic_prim -t ${THREADS} --h1 ../${HIC_1} --h2 ../${HIC_2} ../${HIFI_READS} --primary
+hifiasm -o ${ASM_NAME}_assembly_hic_prim -t ${THREADS} --h1 ../${HIC_1} --h2 ../${HIC_2} ../${HIFI_READS} --primary --n-hap 40
 
 # get fasta files from hifiasm assemblies
 awk '/^S/{print ">"$2;print $3}' ${ASM_NAME}_assembly_hic_prim.hic.p_ctg.gfa > ${ASM_NAME}_asm_prim.hic.p_ctg.fasta
