@@ -182,6 +182,11 @@ FAIDX='$REF.fai'
 perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  samtools 10 | samtools view -bS -t $FAIDX | samtools sort -@ ${THREADS} -o HiC1_HiC2_combined.bam
 
 YAHS_OUTPUT=$(yahs purged.hic.asm HiC1_HiC2_combined.bam)
+conda activate busco
+busco -i  ${YAHS_OUTPUT} -c ${THREADS} --lineage ${lineage} -o busco_out -m geno 
+conda deactivate
+/opt/gfastats/build/bin/gfastats -i ${YAHS_OUTPUT} > ${YAHS_OUTPUT}.gfastats
+
 echo "Step 4 -- DONE"
 
 echo "Step 5 -- Preparing Blobtoolkit"
@@ -201,14 +206,14 @@ blastn -db nt -query $outfile_fasta -outfmt "6 qseqid staxids bitscore std" -max
 #tar -xzvf taxdump.tar.gz
 # RUN BLOBTOOLKIT:
 # Step 1. Create blobtools database:
-blobtools create --fasta Bin-8.fasta  --meta meta.yaml --taxid 203899 --taxdump . Tethysbaena_scabra_assembly
+blobtools create --fasta $YAHS_OUTPUT  --meta meta.yaml --taxid $tax_id --taxdump . ${ASM_NAME}
 # Step 2. Add blast hits
-blobtools add  --hits blast.out --taxrule bestsumorder --taxdump . Tethysbaena_scabra_assembly
+blobtools add  --hits blast.out --taxrule bestsumorder --taxdump . ${ASM_NAME}
 # Step 3. Add coverage
 # samtools index -c alignment_sorted.bam ## looks for a .bam.csi
-blobtools add --cov alignment_sorted.bam Tethysbaena_scabra_assembly
+blobtools add --cov alignment_sorted.bam ${ASM_NAME}
 # Step 4. Add busco scores
-blobtools add --busco full_table.tsv Tethysbaena_scabra_assembly
+blobtools add --busco busco_out/run_*/full_table.tsv ${ASM_NAME}
 # Step 5. Open dataset in Blobtoolkit viewer
 blobtools host `pwd`
 
