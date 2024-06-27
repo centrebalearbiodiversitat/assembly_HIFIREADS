@@ -6,6 +6,8 @@ bowtie2-build yahs.out_scaffolds_final.fa yahs.out_scaffolds_final_bowtie
 bowtie2 -x yahs.out_scaffolds_final_bowtie -1 ../reads/Tscabra_allHiC_1.fastq.gz -2 ../reads/Tscabra_allHiC_2.fastq.gz -S aligned.sam
 # Convert SAM to BAM and sort
 samtools view -bS alignment.sam | samtools sort -o alignment_sorted.bam -
+samtools flagstat alignment_sorted.bam > align_sorted.bam.flagstats
+
 # PretextMap needs an alignment .bam.
 # Obtain .pretext:
 samtools view -h aligment.sorted.bam | /opt/PretextMap/builddir/PretextMap -o map.pretext --sortby length --sortorder descend --mapq 10
