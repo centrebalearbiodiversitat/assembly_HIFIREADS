@@ -35,6 +35,7 @@ perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  sa
 
 YAHS_OUTPUT = /opt/yahs/yahs purged.hic.asm HiC1_HiC2_combined.bam
 
+source /opt/mamba/mambaforge/etc/profile.d/conda.sh
 ## checking scaffolding stats
 mkdir -p busco_yahs
 mamba activate busco
