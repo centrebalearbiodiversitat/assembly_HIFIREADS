@@ -46,6 +46,7 @@ Tools used:
 * PretextMap
 * PretextView
 * PretextGraph
+* FastaToAGPConversion --> https://github.com/nitinnarwade/FastaToAGPConversion
   
 # 7. Post Pretext processing (7_post_pret.sh)
 
