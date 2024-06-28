@@ -33,7 +33,15 @@ REF='/home/bioinfo/tethysbaena_scabra_assembly/bwa_output/purged.fa'
 FAIDX='$REF.fai'
 perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  samtools 10 | samtools view -bS -t $FAIDX | samtools sort -@ ${THREADS} -o HiC1_HiC2_combined.bam
 
-/opt/yahs/yahs purged.hic.asm HiC1_HiC2_combined.bam
+YAHS_OUTPUT = /opt/yahs/yahs purged.hic.asm HiC1_HiC2_combined.bam
+
+## checking scaffolding stats
+mkdir -p busco_yahs
+mamba activate busco
+busco -i $YAHS_OUTPUT -o busco_yahs -m geno --lineage ${lineage} -c ${THREADS} -f 
+mamba deactivate
+
+/opt/gfastats/build/gfastats ${YAHS_OUTPUT} > ${YAHS_OUTPUT}.gfastats
 
 echo "Step 4 -- Scaffolding DONE"
 
