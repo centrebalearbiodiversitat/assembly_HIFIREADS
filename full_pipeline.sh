@@ -87,7 +87,7 @@ cd assembly_metrics
 
 source /opt/mamba/mambaforge/etc/profile.d/conda.sh
 conda activate busco
-busco -i ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --auto-lineage-euk -c ${THREADS} -m geno
+busco -i ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta -o busco_out --auto-lineage-euk -c ${THREADS} -m geno -f
 
 ## obtain the best lineage for further steps
 lineage=$(ls busco_out | grep 'short_summary.specific.' | grep '.txt'| cut -d'.' -f3,3)
@@ -105,8 +105,8 @@ cd ..
 
 mkdir purgedups
 cd purgedups
+cp ../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta .
 prim_asm='../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.p_ctg.fasta'
-sec_asm='../hifiasm_HiC/${ASM_NAME}_asm_prim.hic.a_ctg.fasta'
 # step1. split an assembly and do a self-self alignment.
 split_fa ${prim_asm} > ${prim_asm}.split
 minimap2 -xmap-hifi -DP ${prim_asm}.split ${prim_asm}.split | gzip -c > ${prim_asm}.split.self.paf.gz
@@ -122,7 +122,7 @@ mkdir -p quality_stats/quast
 
 conda activate busco
 # Applying BUSCO to the first 3 steps output.
-busco -i purged.fa -o quality_stats/busco_out --lineage ${lineage} -c ${THREADS} -m geno
+busco -i purged.fa -o quality_stats/busco_out --lineage ${lineage} -c ${THREADS} -m geno -f
 
 conda deactivate
 
