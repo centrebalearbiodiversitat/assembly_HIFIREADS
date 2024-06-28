@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "Step 4 - scaffolding"
 purged=$1
 HIC1=$2
 HIC2=$3
@@ -7,9 +7,11 @@ THREADS=$4
 mkdir bwa_output
 cd bwa_output
 
+cp ../purgedups/${purged} .
+bwa index ${purged}
 samtools faidx ${purged}
 ## checking quality with fastqc for HI-C reads
-fastqc ${HIC1} ${HIC2}
+fastqc ../${HIC1} ../${HIC2}
 # use BWA-MEM to align the Hi-C paired-end reads to reference sequences
 # Step1. HiC reads from FASTQC to BAM
 HIC1_basename=$(basename "${HIC1%.*}")
@@ -17,8 +19,8 @@ HIC2_basename=$(basename "${HIC2%.*}")
 HIC1_output="${HIC1_basename}.filtered.bam"
 HIC2_output="${HIC2_basename}.filtered.bam"
 
-bwa mem -t ${THREADS} ${purged} ${HIC1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
-bwa mem -t ${THREADS} ${purged} ${HIC2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
+bwa mem -t ${THREADS} ${purged} ../${HIC1} | samtools view -@ ${THREADS} -Sb - > "${HIC1_basename}.bam"
+bwa mem -t ${THREADS} ${purged} ../${HIC2} | samtools view -@ ${THREADS} -Sb - > "${HIC2_basename}.bam"
 
 #Step2. Retain only the portion of the chimeric read that maps in the 5'-orientation in relation to its read orientation.
 
@@ -31,7 +33,7 @@ REF='/home/bioinfo/tethysbaena_scabra_assembly/bwa_output/purged.fa'
 FAIDX='$REF.fai'
 perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  samtools 10 | samtools view -bS -t $FAIDX | samtools sort -@ ${THREADS} -o HiC1_HiC2_combined.bam
 
-yahs purged.hic.asm HiC1_HiC2_combined.bam
+/opt/yahs/yahs purged.hic.asm HiC1_HiC2_combined.bam
 
-
+echo "Step 4 -- Scaffolding DONE"
 
