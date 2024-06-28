@@ -18,11 +18,14 @@ samtools view -h ${FASTA}_aligment.sorted.bam | /opt/PretextMap/builddir/Pretext
 # Index BAM file
 samtools index ${FASTA}_alignment_sorted.bam
 # Compute coverage
-bedtools genomecov -ibam ${FASTA}_alignment_sorted.bam -bg > ${FASTA}_coverage.bedgraph
 # Add coverage.graph to the Map
-awk '$5=="U" {print $1 "\t" $2 "\t" $3 "\t1000" }' ${BLOBTOOL_AGP}.agp > gaps.bed
-cat gaps.bed | /opt/PretextGraph/bin/PretextGraph addGaps -i map.pretext -n "Gaps"
+
+bedtools genomecov -ibam ${FASTA}_alignment_sorted.bam -bg > ${FASTA}_coverage.bedgraph
 cat coverage.bedgraph | PretextGraph -i map.pretext -n "coverageMap"
-cat telomeres.bed | PretextGraph -i map.pretext  -n "Telomeres"
+# Add gaps.bed to the map
+perl FastaToAPGFileFormatConverter.pl -i ${FASTA} -o ${FASTA}.agp
+awk '$5=="U" {print $1 "\t" $2 "\t" $3 "\t1000" }' ${FASTA}.agp > gaps.bed
+cat gaps.bed | /opt/PretextGraph/bin/PretextGraph addGaps -i map.pretext -n "Gaps"
+#cat telomeres.bed | PretextGraph -i map.pretext  -n "Telomeres"
 #Open PretextView and the pretext.map
 
