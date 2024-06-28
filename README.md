@@ -39,6 +39,7 @@ Tools used:
 * PretextMap
 * PretextView
 * PretextGraph
-#7. Post Pretext processing (7_post_pret.sh)
+  
+# 7. Post Pretext processing (7_post_pret.sh)
 
     
