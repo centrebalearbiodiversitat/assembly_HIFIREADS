@@ -1,6 +1,13 @@
 # Pipeline used for Whole Genome Assembly
 Proposed pipeline for de novo assembly. This first version is prepared for using HIFI and HIC reads.
 
+Steps 1, 2, 3, 4, 5 are provided together in a_assembly_pipeline.sh.
+After processing step 5, the user cooperation will be needed in order to decontaminate manually outliers.
+
+Step 6 will allow us to be ready to later do the manual curation of our genome with Pretext.
+
+Step 7 will convert our pretext output to a fasta file.
+
 # 1. Genome size,  heterozygosity and ploidy estimation (1_reads_assess.sh)
 Tools used:
 * NanoPlot, installed through git clone: https://github.com/wdecoster/NanoPlot
