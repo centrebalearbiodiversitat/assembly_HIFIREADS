@@ -186,6 +186,8 @@ FAIDX='$REF.fai'
 perl /opt/scripts/two_read_bam_combiner.pl "${HIC1_output}" "${HIC2_output}"  samtools 10 | samtools view -bS -t $FAIDX | samtools sort -@ ${THREADS} -o HiC1_HiC2_combined.bam
 
 YAHS_OUTPUT=$(yahs eukaryotes.hic.asm HiC1_HiC2_combined.bam)
+
+source /opt/mamba/mambaforge/etc/profile.d/conda.sh
 conda activate busco
 busco -i  ${YAHS_OUTPUT} -c ${THREADS} --lineage ${lineage} -o busco_out -m geno 
 conda deactivate
