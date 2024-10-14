@@ -1,3 +1,7 @@
+![Alt text](https://centrebaleardebiodiversitat.uib.cat/)
+
+
+
 # Pipeline used for Whole Genome Assembly
 Proposed pipeline for de novo assembly. This first version is prepared for using HIFI and HIC reads.
 
