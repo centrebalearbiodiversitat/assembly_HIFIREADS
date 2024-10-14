@@ -1,5 +1,8 @@
 ![logo CBB](https://centrebaleardebiodiversitat.uib.cat/files/2024/05/Centre-Balear-de-Biodiversitat-CBB-pequeno.jpg)
 
+The Balearic Biodiversity Centre is an initiative that aims to generate knowledge about the rich biological diversity and the exceptional natural environment of the Balearic archipelago. This information is crucial to establish management and conservation policies and to maintain the ecosystem services that biodiversity provides to society. The Balearic Biodiversity Centre is composed of a team of specialized researchers and technicians and is conceived as a scientific-technical support for research groups in R+D+i centres, government managers, and the private sector, as well as to promote strategic collaborations, advice and training on issues related to biodiversity.
+
+More info in https://centrebaleardebiodiversitat.uib.eu/
 
 
 # Pipeline used for Whole Genome Assembly
