@@ -1,4 +1,4 @@
-![Alt text](https://centrebaleardebiodiversitat.uib.cat/)
+![logo CBB](https://centrebaleardebiodiversitat.uib.cat/files/2024/05/Centre-Balear-de-Biodiversitat-CBB-pequeno.jpg)
 
 
 
